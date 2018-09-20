@@ -46,7 +46,7 @@ class Formi(QWidget):
 
     def on_inputTextEdit_textChanged(self):
 
-        input_text = self.inputTextEdit.toPlainText()
+        input_text = self.inputTextEdit.toPlainText().strip()
         formatted_text = formi.join_string(input_text)
 
         self.outputTextEdit.setPlainText(formatted_text)
