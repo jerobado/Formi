@@ -2,6 +2,12 @@
 
 
 def join_string(text):
-    """ Return formatted text separated by comma. """
+    """ Return formatted text separated by comma ','. """
     
     return text.replace('\n', ', ')
+
+
+def expand_string(text):
+    """ Return formatted text separated by newline '\n'. """
+
+    return '\n'.join(text.split()).replace(',', '')
