@@ -18,8 +18,8 @@ python-versions = ">=3.5"
 version = "12.7.1"
 
 [metadata]
-content-hash = "4e18244be337681dd80dc40c99d57bb0dcde6ddad16e4347ad50ce7c47e7801a"
-python-versions = "^3.7"
+content-hash = "8afa69b165f2698d51f0246772f8ebe5407a3213868e330a7b2e8e85f1aeacd6"
+python-versions = "^3.8"
 
 [metadata.files]
 pyqt5 = [

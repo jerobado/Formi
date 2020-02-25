@@ -3,7 +3,7 @@ name = "formi"
 version = "0.2"
 description = "Text formatter For Humans"
 authors = ["Jero Bado <tokidokitalkyou@gmail.com>"]
-license = "MIT"
+license = "GPL-3.0-only"
 
 [tool.poetry.dependencies]
 python = "^3.8"
