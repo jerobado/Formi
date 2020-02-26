@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "Formi"
+name = "formi"
 version = "0.2"
-description = "text formatter For Humans"
+description = "Text formatter For Humans"
 authors = ["Jero Bado <tokidokitalkyou@gmail.com>"]
 license = "GPL-3.0-only"
 
