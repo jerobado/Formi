@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QApplication,
                              QWidget,
                              QPlainTextEdit,
                              QHBoxLayout)
-import formi
+from src.core import formi
 
 __version__ = '0.2'
 

@@ -2,7 +2,7 @@
 ---
 A simple text formatter _For Humans_.
 
-![Formi Main UI](formi-main-ui.JPG)
+![Formi Main UI](images/formi-main-ui.JPG)
 
 Benefits
 ---

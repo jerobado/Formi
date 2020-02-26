@@ -2,7 +2,7 @@
 
 import sys
 from PyQt5.QtWidgets import QApplication
-from main_ui import Formi
+from src.gui.main_ui import Formi
 
 
 if __name__ == '__main__':
