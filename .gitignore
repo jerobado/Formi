@@ -25,3 +25,5 @@ $RECYCLE.BIN/
 .idea/Formi.iml
 *.pyc
 _todo.txt
+build
+release
