@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (QApplication,
                              QHBoxLayout)
 from src.core import formi
 
-__version__ = '0.2'
+__version__ = '0.2.1'
 
 
 class Formi(QWidget):
@@ -55,7 +55,6 @@ class Formi(QWidget):
     def on_TextEdit_textChanged(self):
 
         widget = self.sender()
-        print(widget.objectName())
         if widget.objectName() == 'vertical_inputTextEdit':
             self.horizontal_outputTextEdit.disconnect()
             self.on_vertical_inputTextEdit_textChanged()
@@ -75,6 +74,7 @@ class Formi(QWidget):
         # print(widget.objectName())
         input_text = self.vertical_inputTextEdit.toPlainText().strip()
         self.formatted_text = formi.join_string(input_text)
+        print(f'input count: {formi.count_input(input_text)}')
 
     def expand_text_horizontally(self):
 
