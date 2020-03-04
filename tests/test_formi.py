@@ -16,7 +16,24 @@ class FormiCoreTestCase(unittest.TestCase):
 
         result = formi.expand_string('the quick')
         expected = 'the\nquick'
-        print(result)
+
+        self.assertEqual(result, expected)
+
+    def test_count_inputTextEdit_content(self):
+
+        text = """the
+            quick
+            little
+            brown
+            fox
+            jumps
+            over
+            the
+            lazy
+            dog."""
+
+        result = formi.count_input(text)
+        expected = 10
 
         self.assertEqual(result, expected)
 
