@@ -3,6 +3,8 @@
 # PyInstaller command during development
 #  -> pyinstaller formi-debug.spec --distpath release
 
+__version__ = '0.2.1-debug'
+__appname__ = 'formi'
 block_cipher = None
 
 
@@ -24,7 +26,7 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='main',
+          name=f'{__appname__}-{__version__}',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -37,4 +39,4 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='main')
+               name=__appname__)
