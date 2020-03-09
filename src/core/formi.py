@@ -18,3 +18,9 @@ def count_input(text: str) -> int:
     """ Count total number of input text based using str.split() """
 
     return len(text.split(sep='\n'))
+
+
+def remove_duplicate(text: str) -> list:
+    """ Return unique string without duplicate. """
+
+    return sorted(list(set(text.split('\n'))))

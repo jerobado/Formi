@@ -37,6 +37,15 @@ class FormiCoreTestCase(unittest.TestCase):
 
         self.assertEqual(result, expected)
 
+    def test_remove_duplicate_function(self):
+
+        text = 'apple\napple\nbanana\nkiwi\norange\norange'
+
+        # [] TODO: find a way how to retain the order of the original text after removing the duplicates
+        result = formi.remove_duplicate(text)
+        expected = ['apple', 'banana', 'kiwi', 'orange']
+        self.assertEqual(result, expected)
+
 
 if __name__ == '__main__':
     unittest.main()
