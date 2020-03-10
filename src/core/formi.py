@@ -1,5 +1,7 @@
 """ Formi is a Python application that can format a copied rows/cells into comma separated text. """
 
+from collections import Counter
+
 
 # [] TODO: combine this two function into 1 function, probably called 'format_text(text, separator)
 def join_string(text: str) -> str:
@@ -21,6 +23,6 @@ def count_input(text: str) -> int:
 
 
 def remove_duplicate(text: str) -> list:
-    """ Return unique string without duplicate. """
+    """ Return list with unique elements """
 
-    return sorted(list(set(text.split('\n'))))
+    return list(Counter(text.split('\n')))
