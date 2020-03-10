@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import (QApplication,
                              QRadioButton)
 from src.core import formi
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 
 
 class Formi(QWidget):
@@ -110,9 +110,15 @@ class Formi(QWidget):
         self.vertical_inputTextEdit.setPlainText(self.formatted_text)
         self.clipboard.setText(self.formatted_text)
 
+    # [] TODO: not yet triggered when initially check before adding a new input
     def on_removeDuplicateCheckBox_clicked(self):
 
-        print('on_removeDuplicateCheckBox_clicked')
+        if self.removeDuplicateCheckBox.isChecked():
+            expand = formi.expand_string(self.formatted_text)
+            unique = formi.remove_duplicate(expand)
+            self.formatted_text = ', '.join(unique)
+            self.horizontal_outputTextEdit.setPlainText(self.formatted_text)
+            self.clipboard.setText(self.horizontal_outputTextEdit.toPlainText())
 
     def keyPressEvent(self, event):
 
