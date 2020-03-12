@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import (QApplication,
                              QRadioButton)
 from src.core import formi
 
-__version__ = '0.2.2'
+__version__ = '0.2.3'
 
 
 class Formi(QWidget):
@@ -60,12 +60,8 @@ class Formi(QWidget):
 
     def _connections(self):
 
-        # self.vertical_inputTextEdit.textChanged.connect(self.on_vertical_inputTextEdit_textChanged)
-        # self.horizontal_outputTextEdit.textChanged.connect(self.on_horizontal_inputTextEdit_textChanged)
-
-        # TEST: consolidate to one function
         self.vertical_inputTextEdit.textChanged.connect(self.on_TextEdit_textChanged)
-        self.horizontal_outputTextEdit.textChanged.connect(self.on_TextEdit_textChanged)
+        self.vertical_inputTextEdit.textChanged.connect(self.on_removeDuplicateCheckBox_clicked)
 
         self.removeDuplicateCheckBox.clicked.connect(self.on_removeDuplicateCheckBox_clicked)
 
@@ -73,22 +69,16 @@ class Formi(QWidget):
 
         widget = self.sender()
         if widget.objectName() == 'vertical_inputTextEdit':
-            self.horizontal_outputTextEdit.disconnect()
             self.on_vertical_inputTextEdit_textChanged()
             self.expand_text_horizontally()
-            self.horizontal_outputTextEdit.textChanged.connect(self.on_TextEdit_textChanged)
             print(widget.objectName())
         else:
-            self.vertical_inputTextEdit.disconnect()
             self.on_horizontal_inputTextEdit_textChanged()
             self.expand_text_vertically()
-            self.vertical_inputTextEdit.textChanged.connect(self.on_TextEdit_textChanged)
             print(widget.objectName())
 
     def on_vertical_inputTextEdit_textChanged(self):
 
-        # widget = self.sender()
-        # print(widget.objectName())
         input_text = self.vertical_inputTextEdit.toPlainText().strip()
         self.formatted_text = formi.join_string(input_text)
         print(f'input count: {formi.count_input(input_text)}')
@@ -98,10 +88,9 @@ class Formi(QWidget):
         self.horizontal_outputTextEdit.setPlainText(self.formatted_text)
         self.clipboard.setText(self.formatted_text)
 
+    # [] TODO: implement horizontal strings with comma to the vertical_inputTextEdit
     def on_horizontal_inputTextEdit_textChanged(self):
 
-        # widget = self.sender()
-        # print(widget.objectName())
         input_text = self.horizontal_outputTextEdit.toPlainText().strip()
         self.formatted_text = formi.expand_string(input_text)
 
@@ -110,7 +99,6 @@ class Formi(QWidget):
         self.vertical_inputTextEdit.setPlainText(self.formatted_text)
         self.clipboard.setText(self.formatted_text)
 
-    # [] TODO: not yet triggered when initially check before adding a new input
     def on_removeDuplicateCheckBox_clicked(self):
 
         if self.removeDuplicateCheckBox.isChecked():
