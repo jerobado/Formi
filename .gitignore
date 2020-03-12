@@ -27,3 +27,6 @@ $RECYCLE.BIN/
 _todo.txt
 build
 release
+
+# PyInstaller stuff
+*.spec
