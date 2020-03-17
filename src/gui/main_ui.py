@@ -1,6 +1,7 @@
 """ Main Graphical User Interface of Formi. """
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import (Qt,
+                          QSettings)
 from PyQt5.QtWidgets import (QApplication,
                              QWidget,
                              QPlainTextEdit,
@@ -21,10 +22,16 @@ class Formi(QWidget):
         super().__init__(parent)
         self.clipboard = QApplication.clipboard()
         self.formatted_text = ''
+        self.settings = QSettings()
         self._widgets()
         self._properties()
         self._layouts()
         self._connections()
+        self._read_settings()
+
+    def _read_settings(self):
+
+        self.restoreGeometry(self.settings.value('formi_geometry', self.saveGeometry()))
 
     def _widgets(self):
 
@@ -112,3 +119,11 @@ class Formi(QWidget):
 
         if event.modifiers() & Qt.ControlModifier and event.key() == Qt.Key_Q:
             self.close()
+
+    def closeEvent(self, event):
+
+        self._write_settings()
+
+    def _write_settings(self):
+
+        self.settings.setValue('formi_geometry', self.saveGeometry())
