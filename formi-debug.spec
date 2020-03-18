@@ -1,9 +1,9 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 # PyInstaller command during development
-#  -> pyinstaller formi-debug.spec --distpath release
+#  -> pyinstaller formi-debug.spec --noconfirm --distpath release
 
-__version__ = '0.2.2-debug'
+__version__ = '0.2.4-debug'
 __appname__ = 'formi'
 block_cipher = None
 
