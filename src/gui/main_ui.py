@@ -5,14 +5,16 @@ from PyQt5.QtCore import (Qt,
 from PyQt5.QtWidgets import (QApplication,
                              QWidget,
                              QPlainTextEdit,
+                             QGridLayout,
                              QVBoxLayout,
                              QHBoxLayout,
                              QGroupBox,
                              QCheckBox,
-                             QRadioButton)
+                             QRadioButton,
+                             QLabel)
 from src.core import formi
 
-__version__ = '0.2.3'
+__version__ = '0.2.4'
 
 
 class Formi(QWidget):
@@ -37,6 +39,8 @@ class Formi(QWidget):
 
         self.vertical_inputTextEdit = QPlainTextEdit()
         self.horizontal_outputTextEdit = QPlainTextEdit()
+        self.verticalCountLabel = QLabel()
+        self.horizontalCountLabel = QLabel()
         self.operationsGroupBox = QGroupBox()
         self.removeDuplicateCheckBox = QCheckBox()
 
@@ -46,6 +50,8 @@ class Formi(QWidget):
         self.vertical_inputTextEdit.setObjectName('vertical_inputTextEdit')
         self.horizontal_outputTextEdit.setPlaceholderText('Output text:\n\nbanana, apple, kiwi, orange')
         self.horizontal_outputTextEdit.setObjectName('horizontal_inputTextEdit')
+        self.verticalCountLabel.setText('Count:')
+        self.horizontalCountLabel.setText('Count:')
         self.operationsGroupBox.setTitle('Operations')
         self.removeDuplicateCheckBox.setText('Remove &duplicates')
         self.setWindowTitle(f'Formi {__version__} - text formatter For Humans')
@@ -56,14 +62,16 @@ class Formi(QWidget):
         groupbox_layout = QVBoxLayout()
         groupbox_layout.addWidget(self.removeDuplicateCheckBox)
         groupbox_layout.addStretch()
-
         self.operationsGroupBox.setLayout(groupbox_layout)
 
-        hor = QHBoxLayout()
-        hor.addWidget(self.vertical_inputTextEdit)
-        hor.addWidget(self.horizontal_outputTextEdit)
-        hor.addWidget(self.operationsGroupBox)
-        self.setLayout(hor)
+        grid = QGridLayout()
+        grid.addWidget(self.vertical_inputTextEdit, 0, 0)
+        grid.addWidget(self.horizontal_outputTextEdit, 0, 1)
+        grid.addWidget(self.operationsGroupBox, 0, 2)
+        grid.addWidget(self.verticalCountLabel, 1, 0)
+        grid.addWidget(self.horizontalCountLabel, 1, 1)
+
+        self.setLayout(grid)
 
     def _connections(self):
 
@@ -88,7 +96,9 @@ class Formi(QWidget):
 
         input_text = self.vertical_inputTextEdit.toPlainText().strip()
         self.formatted_text = formi.join_string(input_text)
+        self.verticalCountLabel.setText(f'Count: {formi.count_input(input_text)}')
         print(f'input count: {formi.count_input(input_text)}')
+        print(f'output count: {len(self.formatted_text.split(","))}')
 
     def expand_text_horizontally(self):
 
@@ -106,6 +116,7 @@ class Formi(QWidget):
         self.vertical_inputTextEdit.setPlainText(self.formatted_text)
         self.clipboard.setText(self.formatted_text)
 
+    # [] TODO: if unchecked, outputTextEdit should display text based on the original input
     def on_removeDuplicateCheckBox_clicked(self):
 
         if self.removeDuplicateCheckBox.isChecked():
@@ -114,6 +125,10 @@ class Formi(QWidget):
             self.formatted_text = ', '.join(unique)
             self.horizontal_outputTextEdit.setPlainText(self.formatted_text)
             self.clipboard.setText(self.horizontal_outputTextEdit.toPlainText())
+
+        print(f'output count: {len(self.formatted_text.split(","))}')
+        output_len = len(self.formatted_text.split(','))
+        self.horizontalCountLabel.setText(f'Count: {output_len}')
 
     def keyPressEvent(self, event):
 
