@@ -37,6 +37,14 @@ class FormiCoreTestCase(unittest.TestCase):
 
         self.assertEqual(result, expected)
 
+    def test_count_outputTextEdit_content(self):
+
+        text = 'w3, 12, 3, 13, 54, 3, 32, 3, 3, 3, 3, 3, 3, 3, 2'
+        result = len(text.split(','))
+        expected = 15
+
+        self.assertEqual(result, expected)
+
     def test_remove_duplicate_function(self):
 
         text = 'apple\napple\nbanana\nkiwi\norange\norange'
