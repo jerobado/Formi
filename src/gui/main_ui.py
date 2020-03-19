@@ -75,6 +75,7 @@ class Formi(QWidget):
 
     def _connections(self):
 
+        # [] TODO: test these connections to prevent from changing signals and slots
         self.vertical_inputTextEdit.textChanged.connect(self.on_TextEdit_textChanged)
         self.vertical_inputTextEdit.textChanged.connect(self.on_removeDuplicateCheckBox_clicked)
 
