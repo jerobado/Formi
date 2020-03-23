@@ -11,7 +11,8 @@ from PyQt5.QtWidgets import (QApplication,
                              QGroupBox,
                              QCheckBox,
                              QRadioButton,
-                             QLabel)
+                             QLabel,
+                             QLineEdit)
 from src.core import formi
 
 __version__ = '0.2.4'
@@ -43,6 +44,8 @@ class Formi(QWidget):
         self.horizontalCountLabel = QLabel()
         self.operationsGroupBox = QGroupBox()
         self.removeDuplicateCheckBox = QCheckBox()
+        self.separatorLineEdit = QLineEdit()
+        self.separatorLabel = QLabel()
 
     def _properties(self):
 
@@ -54,13 +57,23 @@ class Formi(QWidget):
         self.horizontalCountLabel.setText('Count:')
         self.operationsGroupBox.setTitle('Operations')
         self.removeDuplicateCheckBox.setText('Remove &duplicates')
+        self.separatorLineEdit.setMaxLength(1)
+        self.separatorLineEdit.setMaximumWidth(14)
+        self.separatorLineEdit.setAlignment(Qt.AlignCenter)
+        self.separatorLabel.setText('&Separator')
+        self.separatorLabel.setBuddy(self.separatorLineEdit)
         self.setWindowTitle(f'Formi {__version__} - text formatter For Humans')
         self.resize(471, 240)   # width, height
 
     def _layouts(self):
 
+        separator_widgets = QHBoxLayout()
+        separator_widgets.addWidget(self.separatorLineEdit)
+        separator_widgets.addWidget(self.separatorLabel)
+
         groupbox_layout = QVBoxLayout()
         groupbox_layout.addWidget(self.removeDuplicateCheckBox)
+        groupbox_layout.addLayout(separator_widgets)
         groupbox_layout.addStretch()
         self.operationsGroupBox.setLayout(groupbox_layout)
 
@@ -80,6 +93,7 @@ class Formi(QWidget):
         self.vertical_inputTextEdit.textChanged.connect(self.on_removeDuplicateCheckBox_clicked)
 
         self.removeDuplicateCheckBox.clicked.connect(self.on_removeDuplicateCheckBox_clicked)
+        self.separatorLineEdit.textChanged.connect(self.on_separatorLineEdit_textChanged)
 
     def on_TextEdit_textChanged(self):
 
@@ -130,6 +144,11 @@ class Formi(QWidget):
         print(f'output count: {len(self.formatted_text.split(","))}')
         output_len = len(self.formatted_text.split(','))
         self.horizontalCountLabel.setText(f'Count: {output_len}')
+
+    # [] TODO: add test to separate items on the input strings
+    def on_separatorLineEdit_textChanged(self):
+
+        print(self.separatorLineEdit.text())
 
     def keyPressEvent(self, event):
 
