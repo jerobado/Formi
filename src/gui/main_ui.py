@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import (QApplication,
                              QLineEdit)
 from src.core import formi
 
-__version__ = '0.2.4'
+__version__ = '0.2.5'
 
 
 class Formi(QWidget):
@@ -148,7 +148,10 @@ class Formi(QWidget):
     # [] TODO: add test to separate items on the input strings
     def on_separatorLineEdit_textChanged(self):
 
-        print(self.separatorLineEdit.text())
+        input_text = self.vertical_inputTextEdit.toPlainText().strip()
+        self.formatted_text = formi.join_string(input_text, self.separatorLineEdit.text())
+        self.horizontal_outputTextEdit.setPlainText(self.formatted_text)
+        self.clipboard.setText(self.formatted_text)
 
     def keyPressEvent(self, event):
 
