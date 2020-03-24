@@ -12,6 +12,13 @@ class FormiCoreTestCase(unittest.TestCase):
 
         self.assertEqual(result, expected)
 
+    def test_join_string_function_custom_delimiter(self):
+
+        result = formi.join_string('the\nquick', ';')
+        expected = 'the; quick'
+
+        self.assertEqual(result, expected)
+
     def test_expand_string_function(self):
 
         result = formi.expand_string('the quick')
