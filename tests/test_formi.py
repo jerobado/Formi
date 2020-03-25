@@ -2,6 +2,7 @@ import unittest
 from src.core import formi
 
 
+# [] TODO: add test to combine more than 1 operations
 class FormiCoreTestCase(unittest.TestCase):
     """ Test formi.py core functions """
 
