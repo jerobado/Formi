@@ -3,7 +3,7 @@
 # PyInstaller command during development
 #  -> pyinstaller formi-debug.spec --noconfirm --distpath release
 
-__version__ = '0.2.5-debug'
+__version__ = '0.2.6-debug'
 __appname__ = 'formi'
 block_cipher = None
 
