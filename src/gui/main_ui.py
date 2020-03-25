@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import (QApplication,
                              QLineEdit)
 from src.core import formi
 
-__version__ = '0.2.5'
+__version__ = '0.2.6'
 
 
 class Formi(QWidget):
@@ -24,7 +24,7 @@ class Formi(QWidget):
 
         super().__init__(parent)
         self.clipboard = QApplication.clipboard()
-        self.formatted_text = ''
+        self.output_text = ''
         self.settings = QSettings()
         self._widgets()
         self._properties()
@@ -91,9 +91,14 @@ class Formi(QWidget):
         # [] TODO: test these connections to prevent from changing signals and slots
         self.vertical_inputTextEdit.textChanged.connect(self.on_TextEdit_textChanged)
         self.vertical_inputTextEdit.textChanged.connect(self.on_removeDuplicateCheckBox_clicked)
+        self.vertical_inputTextEdit.textChanged.connect(self.on_separatorLineEdit_textChanged)
 
         self.removeDuplicateCheckBox.clicked.connect(self.on_removeDuplicateCheckBox_clicked)
         self.separatorLineEdit.textChanged.connect(self.on_separatorLineEdit_textChanged)
+
+        # [] TODO: connect operations widget's signals to one slot
+        self.removeDuplicateCheckBox.clicked.connect(self.on_operation_widget_slot)
+        self.separatorLineEdit.textChanged.connect(self.on_operation_widget_slot)
 
     def on_TextEdit_textChanged(self):
 
@@ -110,48 +115,70 @@ class Formi(QWidget):
     def on_vertical_inputTextEdit_textChanged(self):
 
         input_text = self.vertical_inputTextEdit.toPlainText().strip()
-        self.formatted_text = formi.join_string(input_text)
+        self.output_text = formi.join_string(input_text)
         self.verticalCountLabel.setText(f'Count: {formi.count_input(input_text)}')
         print(f'input count: {formi.count_input(input_text)}')
-        print(f'output count: {len(self.formatted_text.split(","))}')
+        print(f'output count: {len(self.output_text.split(","))}')
 
     def expand_text_horizontally(self):
 
-        self.horizontal_outputTextEdit.setPlainText(self.formatted_text)
-        self.clipboard.setText(self.formatted_text)
+        self.horizontal_outputTextEdit.setPlainText(self.output_text)
+        self.clipboard.setText(self.output_text)
 
     # [] TODO: implement horizontal strings with comma to the vertical_inputTextEdit
     def on_horizontal_inputTextEdit_textChanged(self):
 
         input_text = self.horizontal_outputTextEdit.toPlainText().strip()
-        self.formatted_text = formi.expand_string(input_text)
+        self.output_text = formi.expand_string(input_text)
 
     def expand_text_vertically(self):
 
-        self.vertical_inputTextEdit.setPlainText(self.formatted_text)
-        self.clipboard.setText(self.formatted_text)
+        self.vertical_inputTextEdit.setPlainText(self.output_text)
+        self.clipboard.setText(self.output_text)
 
     # [] TODO: if unchecked, outputTextEdit should display text based on the original input
     def on_removeDuplicateCheckBox_clicked(self):
 
         if self.removeDuplicateCheckBox.isChecked():
-            expand = formi.expand_string(self.formatted_text)
+            expand = formi.expand_string(self.output_text)
             unique = formi.remove_duplicate(expand)
-            self.formatted_text = ', '.join(unique)
-            self.horizontal_outputTextEdit.setPlainText(self.formatted_text)
+            self.output_text = ', '.join(unique)
+            self.horizontal_outputTextEdit.setPlainText(self.output_text)
             self.clipboard.setText(self.horizontal_outputTextEdit.toPlainText())
 
-        print(f'output count: {len(self.formatted_text.split(","))}')
-        output_len = len(self.formatted_text.split(','))
+        print(f'output count: {len(self.output_text.split(","))}')
+        output_len = len(self.output_text.split(','))
         self.horizontalCountLabel.setText(f'Count: {output_len}')
 
     # [] TODO: add test to separate items on the input strings
     def on_separatorLineEdit_textChanged(self):
 
         input_text = self.vertical_inputTextEdit.toPlainText().strip()
-        self.formatted_text = formi.join_string(input_text, self.separatorLineEdit.text())
-        self.horizontal_outputTextEdit.setPlainText(self.formatted_text)
-        self.clipboard.setText(self.formatted_text)
+
+        if self.separatorLineEdit.text():
+            # custom delimiter
+            self.output_text = formi.join_string(input_text, self.separatorLineEdit.text())
+        else:
+            # default delimiter, comma
+            self.output_text = formi.join_string(input_text)
+
+        self.horizontal_outputTextEdit.setPlainText(self.output_text)
+        self.clipboard.setText(self.output_text)
+
+    # TEST: combining operation widget's activated signals into a single slot
+    def on_operation_widget_slot(self):
+
+        activated_widgets = all([self.removeDuplicateCheckBox.isChecked(),
+                                 self.separatorLineEdit.text()])
+        print(activated_widgets)
+
+        if self.removeDuplicateCheckBox.isChecked():
+            print('removeDuplicateCheckBox')
+            # do operations to remove duplicate
+
+        if self.separatorLineEdit.text():
+            print('separatorLineEdit')
+            # do operations to separate strings
 
     def keyPressEvent(self, event):
 
