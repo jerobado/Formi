@@ -3,7 +3,6 @@
 from collections import Counter
 
 
-# [] TODO: combine this two function into 1 function, probably called 'format_text(text, separator)
 def join_string(text: str, delimiter: str = ',') -> str:
     """ Return formatted text separated by a customizable delimiter, default is comma ','. """
 
