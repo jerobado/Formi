@@ -24,9 +24,11 @@ class Formi(QWidget):
 
         super().__init__(parent)
         self.clipboard = QApplication.clipboard()
-        self.input_text = str
-        self.output_text = str
+        self.input_text = str           # raw text input
+        self.formatted_text = str       # formatted/processed text after certain operation(s)
+        self.output_text = str          # text to display as result
         self.unique_items = list
+        self.separator_char = ','
         self.settings = QSettings()
         self._widgets()
         self._properties()
@@ -134,8 +136,10 @@ class Formi(QWidget):
     def count_items(self):
 
         # default operations
-        print(f'output count: {len(self.output_text.split(","))}')
-        output_len = len(self.output_text.split(','))
+        print('this -> ', self.separator_char)
+        print(self.output_text, self.output_text.split(f"{self.separator_char}"))
+        print(f'output count: {len(self.output_text.split(f"{self.separator_char}"))}')
+        output_len = len(self.output_text.split(f'{self.separator_char}'))
         self.horizontalCountLabel.setText(f'Count: {output_len}')
 
     # [] TODO: implement horizontal strings with comma to the vertical_inputTextEdit
@@ -152,28 +156,19 @@ class Formi(QWidget):
     # [] TODO: if unchecked, outputTextEdit should display text based on the original input
     def on_removeDuplicateCheckBox_clicked(self):
 
-        print('clicked?')
         if self.removeDuplicateCheckBox.isChecked():
             expand = formi.expand_string(self.output_text)
-            print('expand:', expand)
             self.unique_items = formi.remove_duplicate(expand)
-            print('unique:', self.unique_items)
-            self.output_text = ', '.join(self.unique_items)
+            self.formatted_text = self.unique_items
+            self.output_text = f'{self.separator_char} '.join(self.unique_items)
             self.horizontal_outputTextEdit.setPlainText(self.output_text)
             self.clipboard.setText(self.horizontal_outputTextEdit.toPlainText())
-
-        print('output_text: ', self.output_text)
-        # self.count_items()
-        # # default operations
-        # print(f'output count: {len(self.output_text.split(","))}')
-        # output_len = len(self.output_text.split(','))
-        # self.horizontalCountLabel.setText(f'Count: {output_len}')
 
     # [] TODO: add test to separate items on the input strings
     def on_separatorLineEdit_textChanged(self):
 
-        print('im called')
         input_text = self.vertical_inputTextEdit.toPlainText().strip()
+        self.separator_char = self.separatorLineEdit.text()
 
         if self.separatorLineEdit.text():
             # custom delimiter
@@ -184,8 +179,6 @@ class Formi(QWidget):
 
         self.horizontal_outputTextEdit.setPlainText(self.output_text)
         self.clipboard.setText(self.output_text)
-
-        print('executed on lineedit')
 
     # TEST: combining operation widget's activated signals into a single slot
     def on_operation_widget_slot(self):
@@ -200,12 +193,9 @@ class Formi(QWidget):
             # do operations to separate strings
             self.on_separatorLineEdit_textChanged()
 
-        # if self.removeDuplicateCheckBox.isChecked() and self.separatorLineEdit.text():
-        #     print('both operations:')
-        #     print(self.input_text)
-        #     # expand = formi.expand_string(self.output_text)
-        #     print(self.unique_items)
-        #     # self.output_text = f'{self.separatorLineEdit.text} '.join(self.unique_items)
+        if self.removeDuplicateCheckBox.isChecked() and self.separatorLineEdit.text():
+            print('both operations:')
+            self.output_text = f'{self.separatorLineEdit.text()} '.join(self.unique_items)
 
         self.horizontal_outputTextEdit.setPlainText(self.output_text)
         self.clipboard.setText(self.output_text)
