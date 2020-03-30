@@ -193,9 +193,10 @@ class Formi(QWidget):
             # do operations to separate strings
             self.on_separatorLineEdit_textChanged()
 
-        if self.removeDuplicateCheckBox.isChecked() and self.separatorLineEdit.text():
-            print('both operations:')
-            self.output_text = f'{self.separatorLineEdit.text()} '.join(self.unique_items)
+        # [] TODO: how to combine two operations? the commented code below doesn't work as expected
+        # if self.removeDuplicateCheckBox.isChecked() and self.separatorLineEdit.text():
+        #     print('both operations:')
+        #     self.output_text = f'{self.separatorLineEdit.text()} '.join(self.unique_items)
 
         self.horizontal_outputTextEdit.setPlainText(self.output_text)
         self.clipboard.setText(self.output_text)
